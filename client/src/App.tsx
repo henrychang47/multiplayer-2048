@@ -92,6 +92,14 @@ function App() {
             return false;
           });
           break;
+        case 'error':
+          alert(data.message);
+          setRoomId(null);
+          setRole(null);
+          setGameStarted(false);
+          setPlayers([]);
+          window.history.pushState({}, '', window.location.pathname);
+          break;
         default:
           break;
       }
