@@ -3,7 +3,11 @@ import { Board } from './components/Board';
 import { useGame } from './hooks/useGame';
 import './index.css';
 
-const generateRoomId = () => Math.random().toString(36).substring(2, 8);
+function generateRoomId(): string {
+  const randomNumber: number = Math.floor(Math.random() * 10000);
+  const fourDigitCode: string = randomNumber.toString().padStart(4, '0');
+  return fourDigitCode;
+}
 
 function App() {
   const [roomId, setRoomId] = useState<string | null>(null);
@@ -233,7 +237,6 @@ function App() {
             <label className="lobby-label">ROOM NUMBER</label>
             <div className="invite-link-box">
               <input type="text" readOnly value={roomId} onClick={e => (e.target as HTMLInputElement).select()} style={{ flex: 1, fontSize: '1.25rem', fontWeight: 'bold', textAlign: 'center', letterSpacing: '0.2em' }} />
-              <button className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.875rem' }} onClick={() => navigator.clipboard.writeText(roomId || '')}>Copy</button>
             </div>
           </div>
 
