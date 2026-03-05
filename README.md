@@ -13,6 +13,8 @@ This repository contains two main parts:
 Since this project uses a monorepo structure, follow these steps to deploy each part:
 
 ### 1. Backend (Server)
+[Backend on Render](https://multiplayer-2048-n389.onrender.com)
+
 Deploy the `server/` folder to a service like [Render](https://render.com), [Railway](https://railway.app), or [Fly.io](https://fly.io).
 
 - **Build Command**: `pip install -r requirements.txt`
@@ -20,6 +22,8 @@ Deploy the `server/` folder to a service like [Render](https://render.com), [Rai
 - **Environment**: Your platform will usually provide a `$PORT` environment variable automatically.
 
 ### 2. Frontend (Client)
+[Frontend on Vercel](https://multiplayer-2048.vercel.app/)
+
 Deploy the `client/` folder to a static site host like [Vercel](https://vercel.com) or [Netlify](https://www.netlify.com).
 
 - **Environment Variable**: You **must** set an environment variable named `VITE_WS_URL`.
