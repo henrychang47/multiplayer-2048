@@ -14,6 +14,7 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(60);
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [players, setPlayers] = useState<string[]>([]);
+  const [joinRoomId, setJoinRoomId] = useState('');
 
   const ws = useRef<WebSocket | null>(null);
   const { gameState, handleTouchStart, handleTouchEnd, resetGame } = useGame(!gameStarted || isTimeUp);
@@ -164,17 +165,39 @@ function App() {
     window.history.pushState({}, '', window.location.pathname);
   };
 
-  const inviteLink = typeof window !== 'undefined' ? window.location.href : '';
-
   if (!roomId) {
     return (
       <div className="container full-center">
         <div className="glass-panel home-panel">
           <h1 className="title">Multiplayer<br />2048</h1>
           <p className="subtitle" style={{ marginBottom: '2rem' }}>Play 2048 in Versus Mode against a friend in real-time!</p>
-          <button className="btn-primary" onClick={createRoom} style={{ width: '100%' }}>
+          <button className="btn-primary" onClick={createRoom} style={{ width: '100%', marginBottom: '1rem' }}>
             Create Game Room
           </button>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <p style={{ textAlign: 'center', margin: '0.5rem 0', color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 600 }}>OR</p>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <input
+                type="text"
+                placeholder="Enter Room Number"
+                value={joinRoomId}
+                onChange={(e) => setJoinRoomId(e.target.value.trim())}
+                style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'var(--glass-bg)', color: 'var(--text-primary)', textAlign: 'center', letterSpacing: '0.1em' }}
+              />
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  if (joinRoomId) {
+                    window.history.pushState({}, '', `?room=${joinRoomId}`);
+                    setRoomId(joinRoomId);
+                  }
+                }}
+              >
+                Join
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -207,10 +230,10 @@ function App() {
           </div>
 
           <div style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-            <label className="lobby-label">INVITE LINK</label>
+            <label className="lobby-label">ROOM NUMBER</label>
             <div className="invite-link-box">
-              <input type="text" readOnly value={inviteLink} onClick={e => (e.target as HTMLInputElement).select()} style={{ flex: 1 }} />
-              <button className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.875rem' }} onClick={() => navigator.clipboard.writeText(inviteLink)}>Copy</button>
+              <input type="text" readOnly value={roomId} onClick={e => (e.target as HTMLInputElement).select()} style={{ flex: 1, fontSize: '1.25rem', fontWeight: 'bold', textAlign: 'center', letterSpacing: '0.2em' }} />
+              <button className="btn-primary" style={{ padding: '8px 16px', fontSize: '0.875rem' }} onClick={() => navigator.clipboard.writeText(roomId || '')}>Copy</button>
             </div>
           </div>
 
